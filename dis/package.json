@@ -1,0 +1,12 @@
+{
+  "name": "dis",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node $NODE_DEBUG_OPTION ./index.js"
+  },
+  "dependencies": {
+    "jimp": "^0.6.4",
+    "sharp": "^0.22.1"
+  }
+}
