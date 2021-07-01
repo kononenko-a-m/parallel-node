@@ -4,7 +4,7 @@ const express = require('express');
 const spawnThread = require('./lib/worker-thread/thread-factory');
 const app = express();
 
-const arrBuffer = new SharedArrayBuffer(16);
+const arrBuffer = new ArrayBuffer(16);
 const arrBufferView = new Int32Array(arrBuffer);
 
 arrBufferView[0] = 1;
@@ -31,7 +31,7 @@ app.get('/array-buffer/move-and-mutate', (req, res) => {
 
     Promise.all([
         thread1.exec(multiMutate, arrBuffer),
-        // thread2.exec(multiMutate, arrBuffer)
+        thread2.exec(multiMutate, arrBuffer)
     ]).then(([ response ]) => {
 
         res.json({
@@ -48,7 +48,7 @@ app.get('/array-buffer/compute-parallel', (req, res) => {
         thread1.exec(function (buffer) {
             const bufferView = new Int32Array(buffer);
             for (let i = 0; i < 100000; i++) {
-                bufferView[0] = Math.abs(bufferView[0] * -2);
+                bufferView[0] = bufferView[0] * -2;
             }
         }),
         thread2.exec(function (buffer) {
